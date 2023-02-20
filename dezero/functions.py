@@ -1,5 +1,4 @@
 import numpy as np
-import dezero
 from dezero import utils
 from dezero.core import Function, Variable, as_variable, as_array
 
@@ -81,7 +80,8 @@ class BroadcastTo(Function):
     def backward(self,gy):
         gx = sum_to(gy,self.x_shape)
         return gx
-    
+
+
 def broadcast_to(x,shape):
     if x.shape == shape:
         return as_variable(x)
