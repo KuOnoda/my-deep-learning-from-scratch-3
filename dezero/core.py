@@ -8,6 +8,7 @@ import dezero
 # =============================================================================
 class Config:
     enable_backprop = True
+    train = True
 
 
 @contextlib.contextmanager
@@ -19,6 +20,8 @@ def using_config(name, value):
     finally:
         setattr(Config, name, old_value)
 
+def test_mode():
+    return using_config('train', False)
 
 def no_grad():
     return using_config('enable_backprop', False)
@@ -121,6 +124,19 @@ class Variable:
     @property
     def T(self):
         return dezero.functions.transpose(self)
+
+    def unchain(self):
+        self.creator = None
+
+    def unchain_backward(self):
+        if self.creator is not None:
+            funcs = [self.creator]
+            while funcs:
+                f = funcs.pop()
+                for x in f.inputs:
+                    if x.creator is not None:
+                        funcs.append(x.creator)
+                        x.unchain()
 
 def as_variable(obj):
     if isinstance(obj, Variable):
@@ -292,3 +308,7 @@ def setup_variable():
     Variable.__truediv__ = div
     Variable.__rtruediv__ = rdiv
     Variable.__pow__ = pow
+
+class Parameter(Variable):
+    pass
+

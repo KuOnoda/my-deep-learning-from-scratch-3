@@ -167,6 +167,7 @@ with using_config('enable_backprop', False):
     y = square(x)
 
 #決まった形だからusing_configのとこを関数にしちゃう
+#勾配が必要ないときはno_gradを呼ぶだけで良くなった
 with no_grad():
     x = Variable(np.array(2.0))
     y = square(x)

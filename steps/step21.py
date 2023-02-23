@@ -20,6 +20,7 @@ def no_grad():
 
 
 class Variable:
+    __array_priority__ = 200
     def __init__(self, data, name=None):
         if data is not None: #ndarray以外の型にはエラー（Noneは許可）
             if not isinstance(data, np.ndarray):

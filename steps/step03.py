@@ -24,6 +24,7 @@ class Exp(Function):
         return np.exp(x)
 
 
+#合成関数
 A = Square()
 B = Exp()
 C = Square()

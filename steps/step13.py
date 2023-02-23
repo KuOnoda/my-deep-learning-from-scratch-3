@@ -31,8 +31,6 @@ class Variable:
                 if x.creator is not None:
                     funcs.append(x.creator) 
 
-   
-    
 
 
 class Function:
